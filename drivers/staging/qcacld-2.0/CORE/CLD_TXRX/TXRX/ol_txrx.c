@@ -2019,7 +2019,10 @@ ol_txrx_peer_unref_delete(ol_txrx_peer_handle peer)
             }
         }
 
-        adf_os_mem_free(peer);
+		adf_os_mem_free(peer);
+		/* set self_peer to null, otherwise may crash when unload driver */
+	        if (VOS_MONITOR_MODE == vos_get_conparam())
+	            pdev->self_peer = NULL;
     } else {
         adf_os_spin_unlock_bh(&pdev->peer_ref_mutex);
     }

@@ -1226,6 +1226,8 @@ VOS_STATUS hdd_mon_rx_packet_cbk(v_VOID_t *vos_ctx, adf_nbuf_t rx_buf,
 	/* walk the chain until all are processed */
 	skb = (struct sk_buff *) rx_buf;
 	while (NULL != skb) {
+		hdd_move_radiotap_header_forward(skb);
+
 		skb_next = skb->next;
 		skb->dev = adapter->dev;
 
