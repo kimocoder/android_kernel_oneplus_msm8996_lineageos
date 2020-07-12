@@ -1204,11 +1204,14 @@ static A_STATUS ol_build_ieee80211_header(adf_nbuf_t msdu)
 	return A_OK;
 }
 
+#define MAX_RADIOTAP_LEN 256
+
 static inline adf_nbuf_t
 ol_tx_hl_base(
     ol_txrx_vdev_handle vdev,
     enum ol_tx_spec tx_spec,
     adf_nbuf_t msdu_list,
+    adf_nbuf_t msdu_drop_list = NULL;
     int tx_comp_req, bool call_sched)
 {
     struct ol_txrx_pdev_t *pdev = vdev->pdev;
@@ -1231,6 +1234,7 @@ ol_tx_hl_base(
      */
     while (msdu) {
         adf_nbuf_t next;
+	adf_nbuf_t prev_drop;
         struct ol_tx_frms_queue_t *txq;
         struct ol_tx_desc_t *tx_desc = NULL;
 

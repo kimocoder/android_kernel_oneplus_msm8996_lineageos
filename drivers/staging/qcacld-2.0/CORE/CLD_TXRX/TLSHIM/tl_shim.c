@@ -1361,6 +1361,32 @@ void *tlshim_selfpeer_vdev(void *vos_ctx)
 }
 
 /**
+ * tlshim_selfpeer_vdev() - get the vdev of self peer
+ * @vos_ctx: vos context
+ *
+ * Return: on success return vdev, NULL when self peer is invalid/NULL
+ */
+void *tlshim_selfpeer_vdev(void *vos_ctx)
+{
+	struct ol_txrx_pdev_t *pdev = vos_get_context(VOS_MODULE_ID_TXRX,
+							   vos_ctx);
+	struct ol_txrx_peer_t *peer;
+
+	if (!pdev) {
+		TLSHIM_LOGE("Txrx pdev is NULL");
+		return NULL;
+	}
+
+	peer = pdev->self_peer;
+	if (!peer) {
+		TLSHIM_LOGW("Invalid peer");
+		return NULL;
+	} else {
+		return peer->vdev;
+	}
+}
+
+/**
  * WLANTL_SendSTA_DataFrame() - transmit frame from upper layers
  * @vos_ctx: pointer to vos context
  * @vdev: vdev
@@ -1800,7 +1826,7 @@ VOS_STATUS WLANTL_ChangeSTAState(void *vos_ctx, u_int8_t sta_id,
 		return VOS_STATUS_E_INVAL;
 	}
 	peer = ol_txrx_peer_find_by_local_id(
-			((pVosContextType) vos_ctx)->pdev_txrx_ctx,
+			vos_get_context(VOS_MODULE_ID_TXRX,vos_ctx),
 			sta_id);
 
 	if ((peer == NULL) ||

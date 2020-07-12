@@ -10907,7 +10907,7 @@ static struct net_device_ops wlan_drv_ops = {
 #endif //LINUX_VERSION_CODE
 #endif
  };
- static struct net_device_ops wlan_mon_drv_ops = {
+static struct net_device_ops wlan_mon_drv_ops = {
       .ndo_open = hdd_mon_open,
       .ndo_stop = hdd_stop,
 #ifdef CONFIG_HL_SUPPORT
