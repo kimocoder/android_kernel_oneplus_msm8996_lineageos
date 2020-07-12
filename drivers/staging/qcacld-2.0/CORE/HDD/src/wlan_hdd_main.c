@@ -11898,7 +11898,7 @@ hdd_adapter_t *hdd_open_adapter(hdd_context_t *hdd_ctx,
 	hddLog(VOS_TRACE_LEVEL_INFO_HIGH, "%s: iface =%s type = %d\n",
 	       __func__, iface_name, session_type);
 
-	if (hdd_ctx->current_intf_count >= hdd_ctx->max_intf_count) {
+	if (hdd_ctx->current_intf_count >= WLAN_MAX_VDEVS) {
 		/*
 		 * Max limit reached on the number of vdevs
 		 * configured by the host.
@@ -11907,8 +11907,7 @@ hdd_adapter_t *hdd_open_adapter(hdd_context_t *hdd_ctx,
 		       "%s: Unable to add virtual intf: "
 		       "current_vdev_cnt=%d,host_configured_vdev_cnt=%d",
 		       __func__,
-		       hdd_ctx->current_intf_count,
-		       hdd_ctx->max_intf_count);
+		       hdd_ctx->current_intf_count, WLAN_MAX_VDEVS);
 		return NULL;
 	}
 

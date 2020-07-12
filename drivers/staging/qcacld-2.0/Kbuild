@@ -1896,6 +1896,9 @@ ifeq ($(CONFIG_WLAN_DYNAMIC_POWER_CONTROL), y)
 CDEFINES += -DFEATURE_DYNAMIC_POWER_CONTROL
 endif
 
+CONFIG_WLAN_MAX_VDEVS ?= 5
+ccflags-y += -DWLAN_MAX_VDEVS=$(CONFIG_WLAN_MAX_VDEVS)
+
 KBUILD_CPPFLAGS += $(CDEFINES)
 
 # Currently, for versions of gcc which support it, the kernel Makefile
